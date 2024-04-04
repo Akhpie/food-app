@@ -1,47 +1,3 @@
-// import React from "react";
-// import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-// import FormikPostUploader from "./FormikPostUploader";
-
-// const AddNewPost = ({ navigation }) => (
-//   <View>
-//     <Header navigation={navigation} />
-//     <FormikPostUploader />
-//   </View>
-// );
-
-// const Header = ({ navigation }) => (
-//   <View style={styles.headerContainer}>
-//     <TouchableOpacity onPress={() => navigation.goBack()}>
-//       <Image
-//         source={{
-//           uri: "https://img.icons8.com/ios/43E8D8/circled-left-2.png",
-//         }}
-//         style={{ width: 30, height: 30 }}
-//       />
-//     </TouchableOpacity>
-//     <Text style={styles.headerText}>NEW POST</Text>
-//     <Text></Text>
-//   </View>
-// );
-
-// const styles = StyleSheet.create({
-//   container: {
-//     marginHorizontal: 10,
-//   },
-//   headerContainer: {
-//     flexDirection: "row",
-//     justifyContent: "space-between",
-//     alignItems: "center",
-//   },
-//   headerText: {
-//     color: "#fff",
-//     fontWeight: "700",
-//     fontSize: 20,
-//     marginRight: 23,
-//   },
-// });
-// export default AddNewPost;
-
 import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import FormikPostUploader from "./FormikPostUploader";
@@ -58,7 +14,7 @@ const Header = ({ navigation }) => (
     <TouchableOpacity onPress={() => navigation.goBack()}>
       <Image
         source={{
-          uri: "https://img.icons8.com/ios/43E8D8/circled-left-2.png",
+          uri: "https://img.icons8.com/ios/BE29EC/circled-left-2.png",
         }}
         style={{ width: 30, height: 30 }}
       />
@@ -86,7 +42,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   shadow: {
-    shadowColor: "#000",
+    shadowColor: "#800080",
     shadowOffset: {
       width: 0,
       height: 2,

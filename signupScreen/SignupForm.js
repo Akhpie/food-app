@@ -9,11 +9,16 @@ import {
   Animated,
   Easing,
   Pressable,
+  Alert,
 } from "react-native";
 import { Formik, useFormik } from "formik";
 import * as Yup from "yup";
 import Validator from "email-validator";
 import Icon from "react-native-vector-icons/FontAwesome";
+import firebase from "../firebase";
+import { auth, db } from "../firebase";
+import { signInWithEmailAndPassword } from "@firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 
 const MYAPP_LOGO = require("../assets/food-app-title.png");
 const MYAPPLOGO_LINK =
@@ -31,6 +36,34 @@ const SignupForm = ({ navigation }) => {
       isInteraction: true,
     }).start();
   }, []);
+
+  const getRandomAvatar = async () => {
+    const res = await fetch("https://randomuser.me/api");
+    const data = await res.json();
+    return data.results[0].picture.large;
+  };
+
+  const onSignup = async (email, username, password) => {
+    try {
+      const authUser = await firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password);
+      console.log("Account created!", email, password);
+
+      firebase
+        .firestore()
+        .collection("users")
+        .doc(authUser.user.email)
+        .set({
+          owner_uid: authUser.user.uid,
+          username: username,
+          email: authUser.user.email,
+          profile_picture: await getRandomAvatar(),
+        });
+    } catch (error) {
+      Alert.alert(error.message);
+    }
+  };
 
   const backgroundInterpolation = backgroundColor.interpolate({
     inputRange: [0, 2],
@@ -52,7 +85,7 @@ const SignupForm = ({ navigation }) => {
       <Formik
         initialValues={{ email: "", username: "", password: "" }}
         onSubmit={(values) => {
-          console.log(values);
+          onSignup(values.email, values.username, values.password);
         }}
         validationSchema={SignupFormSchema}
         validateOnMount={true}

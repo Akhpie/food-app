@@ -1,6 +1,17 @@
 import React, { useState } from "react";
 import { Image, Text, TouchableOpacity, View, StyleSheet } from "react-native";
 import { Divider } from "react-native-elements";
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
+
+const handleSignout = async () => {
+  try {
+    await firebase.auth().signOut();
+    console.log("signed out");
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const bottomTabIcons = [
   {
@@ -34,9 +45,22 @@ export const bottomTabIcons = [
 
 const BottomTabs = ({ icons }) => {
   const [activeTab, setActiveTab] = useState("Home");
+  const [showLogout, setShowLogout] = useState(false);
 
   const Icon = ({ icon }) => (
-    <TouchableOpacity onPress={() => setActiveTab(icon.name)}>
+    <TouchableOpacity
+      onPress={() => setActiveTab(icon.name)}
+      onLongPress={() => {
+        if (icon.name === "Profile") {
+          setShowLogout(true);
+        }
+      }}
+      onPressOut={() => {
+        if (icon.name === "Profile") {
+          setShowLogout(false);
+        }
+      }}
+    >
       <Image
         source={{ uri: activeTab === icon.name ? icon.active : icon.inactive }}
         style={[
@@ -47,8 +71,14 @@ const BottomTabs = ({ icons }) => {
             : null,
         ]}
       />
+      {showLogout && icon.name === "Profile" && (
+        <TouchableOpacity onPress={handleSignout} style={styles.logoutButton}>
+          <Text style={styles.logoutText}>Logout</Text>
+        </TouchableOpacity>
+      )}
     </TouchableOpacity>
   );
+
   return (
     <View style={styles.wrapper}>
       <Divider width={1} orientation="vertical" />
@@ -85,6 +115,20 @@ const styles = StyleSheet.create({
     borderColor: "#BE29EC",
     borderWidth: activeTab === "Profile" ? 2 : 0,
   }),
+  logoutButton: {
+    position: "absolute",
+    top: -45,
+    right: 2,
+    backgroundColor: "#BE29EC",
+    padding: 5,
+    borderRadius: 5,
+    width: 100,
+  },
+  logoutText: {
+    color: "#fff",
+    fontSize: 16,
+    textAlign: "center",
+  },
 });
 
 export default BottomTabs;

@@ -4,7 +4,7 @@ import AddNewPost from "../components/newPost/AddNewPost";
 
 const NewPostScreen = ({ navigation }) => {
   return (
-    <SafeAreaView style={{ backgroundColor: "#1a1919", flex: 1 }}>
+    <SafeAreaView style={{ backgroundColor: "#B3ECEC", flex: 1 }}>
       <AddNewPost navigation={navigation} />
     </SafeAreaView>
   );

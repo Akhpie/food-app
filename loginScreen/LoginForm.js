@@ -14,7 +14,11 @@ import {
 import { Formik, useFormik } from "formik";
 import * as Yup from "yup";
 import Validator from "email-validator";
-import firebase from "../firebase.js";
+// import firebase from "../firebase.js";
+import firebase from "../firebase";
+import { auth, db } from "../firebase";
+import { signInWithEmailAndPassword } from "@firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 
 const MYAPP_LOGO = require("../assets/food-app-title.png");
 const MYAPPLOGO_LINK =
@@ -33,11 +37,14 @@ const LoginForm = ({ navigation }) => {
     }).start();
   }, []);
 
-  // const onLogin = async(email, password) => {
-  //   try{
-  //     await firebase.auth().signInW
-  //   }
-  // }
+  const onLogin = async (email, password) => {
+    try {
+      await firebase.auth().signInWithEmailAndPassword(email, password);
+      console.log("Firebase login successful", email, password);
+    } catch (error) {
+      Alert.alert(error.message);
+    }
+  };
 
   const backgroundInterpolation = backgroundColor.interpolate({
     inputRange: [0, 2],
@@ -58,7 +65,7 @@ const LoginForm = ({ navigation }) => {
       <Formik
         initialValues={{ email: "", password: "" }}
         onSubmit={(values) => {
-          console.log(values);
+          onLogin(values.email, values.password);
         }}
         validationSchema={LoginFormSchema}
         validateOnMount={true}

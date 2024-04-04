@@ -1,5 +1,6 @@
 import React from "react";
 import { Text, View, Image, StyleSheet, TouchableOpacity } from "react-native";
+import firebase from "firebase/compat/app";
 
 const Header = ({ navigation }) => {
   return (
